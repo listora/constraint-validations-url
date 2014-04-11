@@ -7,7 +7,7 @@ Adds support for validating URLs to [constraint][]
 To install via Leiningen add the following dependency to your `project.clj`:
 
 ``` clj
-[listora/constraint-validations-url "0.0.1"]
+[listora/constraint-validations-url "0.0.2"]
 ```
 
 ## Usage
