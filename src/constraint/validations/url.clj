@@ -1,5 +1,5 @@
 (ns constraint.validations.url
-  (:import [org.apache.commons.validator UrlValidator])
+  (:import [org.apache.commons.validator.routines UrlValidator])
   (:require [clojure.string :as str]
             [constraint.core :refer [Transform]]))
 
