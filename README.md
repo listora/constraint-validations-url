@@ -16,7 +16,10 @@ To install via Leiningen add the following dependency to your `project.clj`:
 (require '[constraint.core :refer [valid?]]
          '[constraint.validations.url :refer [url]])
 
-(valid? (url ["http"]) "http://example.com") ; => false
+(valid? (url ["http"])  "http://example.com")  ; => true
+(valid? (url ["http"])  "https://example.com") ; => false
+(valid? (url ["https"]) "https://example.com") ; => true
+(valid? (url ["http" "https"]) "example.com")  ; => false
 ```
 
 Validation is handled by [commons-validator][] internally.
