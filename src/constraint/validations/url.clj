@@ -1,5 +1,6 @@
 (ns constraint.validations.url
-  (:import [org.apache.commons.validator.routines UrlValidator])
+  (:import [java.net URL]
+           [org.apache.commons.validator.routines UrlValidator])
   (:require [clojure.string :as str]
             [constraint.core :refer [Transform]]))
 
@@ -19,7 +20,8 @@
 (deftype Url [schemes]
   Transform
   (transform* [_ value]
-    (if-not (valid? schemes value)
+    (if (valid? schemes value)
+      {:value (URL. value)}
       {:errors #{(invalid-url schemes value)}})))
 
 (defn url
@@ -30,3 +32,14 @@
     (url [\"https\"])"
   [schemes]
   (Url. schemes))
+
+(defn- string->url [schemes value]
+  (if (valid? schemes value)
+    {:value (URL. value)}
+    {:errors (set (invalid-url schemes value))}))
+
+(defn url-coercions
+  "Defines coercion from a java.lang.String to a java.net.URL given the allowed
+  schemes."
+  [schemes]
+  {[String URL] (partial string->url schemes)})

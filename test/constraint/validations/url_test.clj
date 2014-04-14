@@ -1,4 +1,5 @@
 (ns constraint.validations.url-test
+  (:import [java.net URL])
   (:require [clojure.test :refer :all]
             [constraint.core :refer :all]
             [constraint.validations.url :refer :all]))
@@ -13,25 +14,36 @@
   "example.com")
 
 (deftest test-with-scheme
-  (let [schemes ["http"]]
-    (is (valid? (url schemes) valid-http))
+  (let [validator (url ["http"])]
+    (is (valid? validator valid-http))
 
-    (is (not (valid? (url schemes) valid-https)))
-    (is (not (valid? (url schemes) domain-only)))
+    (is (instance? java.net.URL (coerce validator valid-http))
+        "transforms the URL string into a java.net.URL")
 
-    (is (= (validate (url schemes) domain-only)
+    (is (not (valid? validator valid-https)))
+    (is (not (valid? validator domain-only)))
+
+    (is (= (validate validator domain-only)
            [{:error :invalid-url
              :message "Expected URL with scheme \"http\""
              :found domain-only}]))))
 
 (deftest test-with-schemes
-  (let [schemes ["http" "https"]]
-    (is (valid? (url schemes) valid-http))
-    (is (valid? (url schemes) valid-https))
+  (let [validator (url ["http" "https"])]
+    (doseq [url [valid-http valid-https]]
+      (is (valid? validator url))
+      (is (instance? java.net.URL (coerce validator url))
+          "transforms the http URL string into a java.net.URL"))
 
-    (is (not (valid? (url schemes) domain-only)))
+    (is (not (valid? validator domain-only)))
 
-    (is (= (validate (url schemes) domain-only)
+    (is (= (validate validator domain-only)
            [{:error :invalid-url
              :message "Expected URL with scheme \"http\", or \"https\""
              :found domain-only}]))))
+
+(deftest test-coercions
+  (let [url (URL. "http://example.com")
+        coercions (url-coercions ["http"])]
+    (is (valid? URL (str url) coercions))
+    (is (= (coerce URL (str url) coercions) url))))
