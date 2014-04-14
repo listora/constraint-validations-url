@@ -1,4 +1,5 @@
 (ns constraint.validations.url-test
+  (:import [java.net URL])
   (:require [clojure.test :refer :all]
             [constraint.core :refer :all]
             [constraint.validations.url :refer :all]))
@@ -40,3 +41,9 @@
            [{:error :invalid-url
              :message "Expected URL with scheme \"http\", or \"https\""
              :found domain-only}]))))
+
+(deftest test-coercions
+  (let [url (URL. "http://example.com")
+        coercions (url-coercions ["http"])]
+    (is (valid? URL (str url) coercions))
+    (is (= (coerce URL (str url) coercions) url))))
