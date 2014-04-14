@@ -1,4 +1,4 @@
-(defproject listora/constraint-validations-url "0.0.3"
+(defproject listora/constraint-validations-url "0.0.4-SNAPSHOT"
   :description "Adds support for validating URLs to constraint"
   :url "https://github.com/listora/constraint-validations-url"
 
