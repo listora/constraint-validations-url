@@ -1,5 +1,7 @@
 # constraint-validations-url
 
+[![Build Status](https://travis-ci.org/listora/constraint-validations-url.svg?branch=master)](https://travis-ci.org/listora/constraint-validations-url)
+
 Adds support for validating URLs to [constraint][]
 
 ## Installation
