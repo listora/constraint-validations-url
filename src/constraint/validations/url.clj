@@ -36,7 +36,7 @@
 (defn- string->url [schemes value]
   (if (valid? schemes value)
     {:value (URL. value)}
-    {:errors (set (invalid-url schemes value))}))
+    {:errors #{(invalid-url schemes value)}}))
 
 (defn url-coercions
   "Defines coercion from a java.lang.String to a java.net.URL given the allowed
