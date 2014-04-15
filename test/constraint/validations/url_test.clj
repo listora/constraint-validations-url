@@ -43,7 +43,14 @@
              :found domain-only}]))))
 
 (deftest test-coercions
-  (let [url (URL. "http://example.com")
-        coercions (url-coercions ["http"])]
-    (is (valid? URL (str url) coercions))
-    (is (= (coerce URL (str url) coercions) url))))
+  (let [schemes ["http" "https"]
+        validator (url schemes)
+        example-url (URL. "http://example.com")
+        coercions (url-coercions schemes)]
+    (is (valid? URL (str example-url) coercions))
+    (is (= (coerce URL (str example-url) coercions) example-url))
+
+    (is (= (validate (url schemes) domain-only)
+           [{:error :invalid-url
+             :message "Expected URL with scheme \"http\", or \"https\""
+             :found domain-only}]))))
