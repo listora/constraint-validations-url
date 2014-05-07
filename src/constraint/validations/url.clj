@@ -1,8 +1,23 @@
 (ns constraint.validations.url
   (:import [java.net URL]
-           [org.apache.commons.validator.routines UrlValidator])
+           [org.apache.commons.validator.routines RegexValidator UrlValidator])
   (:require [clojure.string :as str]
             [constraint.core :refer [Transform]]))
+
+(def authority-pattern
+  "^([^:]*(:[^@]*)?@)?([\\p{Alnum}\\-\\.]*)(:\\d*)?")
+
+(def ^{:doc "Modifies the behaviour of the validator. We currently
+  support only the default options.
+
+  Options are managed by adding longs. Zero means use the default
+  validation options, which will require a list of schemes to allow,
+  permit use of hash fragments, and prohibit two slashes and local
+  URLs.
+
+  See http://bit.ly/1nnUxy1 for more information."
+       :private true} validator-options
+       0)
 
 (defn error-message [schemes]
   (str "Expected URL with scheme \""
@@ -15,7 +30,11 @@
    :found value})
 
 (defn- valid? [schemes value]
-  (.isValid (UrlValidator. (into-array String schemes)) value))
+  (.isValid (UrlValidator.
+             (into-array String schemes)
+             (RegexValidator. authority-pattern)
+             validator-options)
+            value))
 
 (deftype Url [schemes]
   Transform
