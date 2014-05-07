@@ -8,13 +8,14 @@
   "^([^:]*(:[^@]*)?@)?([\\p{Alnum}\\-\\.]*)(:\\d*)?")
 
 (def ^{:doc "Modifies the behaviour of the validator. We currently
-support only the default options.
+  support only the default options.
 
-Options are managed by adding longs. Zero means use the default
-validation options, which will require a list of schemes to allow,
-permit use of hash fragments, and prohibit two slashes and local URLs.
+  Options are managed by adding longs. Zero means use the default
+  validation options, which will require a list of schemes to allow,
+  permit use of hash fragments, and prohibit two slashes and local
+  URLs.
 
-See http://bit.ly/1nnUxy1 for more information."
+  See http://bit.ly/1nnUxy1 for more information."
        :private true} validator-options
        0)
 
