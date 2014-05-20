@@ -1,5 +1,5 @@
 (ns constraint.validations.url
-  (:import [java.net URL]
+  (:import [java.net URI]
            [org.apache.commons.validator.routines RegexValidator UrlValidator])
   (:require [clojure.string :as str]
             [constraint.core :refer [Transform]]))
@@ -40,7 +40,7 @@
   Transform
   (transform* [_ value]
     (if (valid? schemes value)
-      {:value (URL. value)}
+      {:value (URI. value)}
       {:errors #{(invalid-url schemes value)}})))
 
 (defn url
@@ -54,11 +54,11 @@
 
 (defn- string->url [schemes value]
   (if (valid? schemes value)
-    {:value (URL. value)}
+    {:value (URI. value)}
     {:errors #{(invalid-url schemes value)}}))
 
 (defn url-coercions
-  "Defines coercion from a java.lang.String to a java.net.URL given the allowed
+  "Defines coercion from a java.lang.String to a java.net.URI given the allowed
   schemes."
   [schemes]
-  {[String URL] (partial string->url schemes)})
+  {[String URI] (partial string->url schemes)})
