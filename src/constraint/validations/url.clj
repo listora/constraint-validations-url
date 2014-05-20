@@ -1,8 +1,9 @@
 (ns constraint.validations.url
-  (:import [java.net URL]
-           [org.apache.commons.validator.routines RegexValidator UrlValidator])
-  (:require [clojure.string :as str]
-            [constraint.core :refer [Transform]]))
+  (:require [listora.url :as url]
+            [clojure.string :as str]
+            [constraint.core :refer [Transform]])
+  (:import [listora.url URL]
+           [org.apache.commons.validator.routines RegexValidator UrlValidator]))
 
 (def authority-pattern
   "^([^:]*(:[^@]*)?@)?([\\p{Alnum}\\-\\.]*)(:\\d*)?")
@@ -40,7 +41,7 @@
   Transform
   (transform* [_ value]
     (if (valid? schemes value)
-      {:value (URL. value)}
+      {:value (url/url value)}
       {:errors #{(invalid-url schemes value)}})))
 
 (defn url
@@ -54,7 +55,7 @@
 
 (defn- string->url [schemes value]
   (if (valid? schemes value)
-    {:value (URL. value)}
+    {:value (url/url value)}
     {:errors #{(invalid-url schemes value)}}))
 
 (defn url-coercions

@@ -1,8 +1,9 @@
 (ns constraint.validations.url-test
-  (:import [java.net URL])
   (:require [clojure.test :refer :all]
             [constraint.core :refer :all]
-            [constraint.validations.url :refer :all]))
+            [constraint.validations.url :refer :all]
+            [listora.url :as url])
+  (:import [listora.url URL]))
 
 (def ^:private valid-http
   ["http://:@example.com"
@@ -24,8 +25,8 @@
 
     (doseq [url valid-http]
       (is (valid? validator url))
-      (is (instance? java.net.URL (coerce validator url))
-          "transforms the URL string into a java.net.URL"))
+      (is (instance? listora.url.URL (coerce validator url))
+          "transforms the URL string into a listora.url.URL"))
 
     (doseq [url (concat invalid valid-https)]
       (is (not (valid? validator url)))
@@ -39,8 +40,8 @@
 
     (doseq [url (concat valid-http valid-https)]
       (is (valid? validator url))
-      (is (instance? java.net.URL (coerce validator url))
-          "transforms the URL string into a java.net.URL"))
+      (is (instance? listora.url.URL (coerce validator url))
+          "transforms the URL string into a listora.url.URL"))
 
     (doseq [url invalid]
       (is (not (valid? validator url)))
@@ -55,7 +56,7 @@
         coercions (url-coercions schemes)]
 
     (doseq [url (concat valid-http valid-https)
-            :let [url (URL. url)]]
+            :let [url (url/url url)]]
       (is (and (is (valid? URL (str url) coercions))
                (is (= (coerce URL (str url) coercions) url)))))
 

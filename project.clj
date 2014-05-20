@@ -7,6 +7,7 @@
 
   :dependencies [[org.clojure/clojure "1.5.1"]
                  [listora/constraint "0.0.4"]
+                 [listora/url "0.1.2-SNAPSHOT"]
                  [commons-validator "1.4.0"]]
 
   :profiles {:dev {:plugins [[lein-difftest "2.0.0"]
