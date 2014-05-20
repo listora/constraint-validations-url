@@ -1,5 +1,5 @@
 (ns constraint.validations.url-test
-  (:import [java.net URL])
+  (:import [java.net URI])
   (:require [clojure.test :refer :all]
             [constraint.core :refer :all]
             [constraint.validations.url :refer :all]))
@@ -24,8 +24,8 @@
 
     (doseq [url valid-http]
       (is (valid? validator url))
-      (is (instance? java.net.URL (coerce validator url))
-          "transforms the URL string into a java.net.URL"))
+      (is (instance? java.net.URI (coerce validator url))
+          "transforms the URL string into a java.net.URI"))
 
     (doseq [url (concat invalid valid-https)]
       (is (not (valid? validator url)))
@@ -39,8 +39,8 @@
 
     (doseq [url (concat valid-http valid-https)]
       (is (valid? validator url))
-      (is (instance? java.net.URL (coerce validator url))
-          "transforms the URL string into a java.net.URL"))
+      (is (instance? java.net.URI (coerce validator url))
+          "transforms the URL string into a java.net.URI"))
 
     (doseq [url invalid]
       (is (not (valid? validator url)))
@@ -55,9 +55,9 @@
         coercions (url-coercions schemes)]
 
     (doseq [url (concat valid-http valid-https)
-            :let [url (URL. url)]]
-      (is (and (is (valid? URL (str url) coercions))
-               (is (= (coerce URL (str url) coercions) url)))))
+            :let [url (URI. url)]]
+      (is (and (is (valid? URI (str url) coercions))
+               (is (= (coerce URI (str url) coercions) url)))))
 
     (doseq [url invalid]
       (is (= (validate validator url)
