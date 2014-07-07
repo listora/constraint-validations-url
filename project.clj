@@ -6,7 +6,7 @@
             :url "http://www.eclipse.org/legal/epl-v10.html"}
 
   :dependencies [[org.clojure/clojure "1.5.1"]
-                 [listora/constraint "0.0.4"]
+                 [listora/constraint "0.0.6"]
                  [commons-validator "1.4.0"]]
 
   :profiles {:dev {:plugins [[lein-difftest "2.0.0"]
