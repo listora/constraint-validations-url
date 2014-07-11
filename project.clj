@@ -8,6 +8,8 @@
   :dependencies [[org.clojure/clojure "1.5.1"]
                  [listora/constraint "0.0.6"]]
 
+  :deploy-repositories [["releases" :clojars]]
+
   :profiles {:dev {:plugins [[lein-difftest "2.0.0"]
                              [jonase/eastwood "0.1.1"]
                              [lein-bikeshed "0.1.6"]]
