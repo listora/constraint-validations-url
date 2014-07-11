@@ -16,15 +16,13 @@ To install via Leiningen add the following dependency to your `project.clj`:
 
 ``` clj
 (require '[constraint.core :refer [valid?]]
-         '[constraint.validations.url :refer [url]])
+         '[constraint.validations.url :refer [url url-coercions]])
 
-(valid? (url ["http"])  "http://example.com")  ; => true
-(valid? (url ["http"])  "https://example.com") ; => false
-(valid? (url ["https"]) "https://example.com") ; => true
-(valid? (url ["http" "https"]) "example.com")  ; => false
+(valid? (url ["http"])  "http://example.com" url-coercions)  ; => true
+(valid? (url ["http"])  "https://example.com" url-coercions) ; => false
+(valid? (url ["https"]) "https://example.com" url-coercions) ; => true
+(valid? (url ["http" "https"]) "example.com" url-coercions)  ; => false
 ```
-
-Validation is handled by [commons-validator][] internally.
 
 ## License
 
@@ -34,4 +32,3 @@ Distributed under the Eclipse Public License either version 1.0 or (at
 your option) any later version.
 
 [constraint]: https://github.com/listora/constraint
-[commons-validator]: http://commons.apache.org/proper/commons-validator/apidocs/overview-summary.html
